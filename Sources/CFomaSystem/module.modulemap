@@ -1,0 +1,5 @@
+module CFomaSystem [system] {
+  header "/usr/local/include/fomalib.h"
+  link "foma"
+  export *
+}
