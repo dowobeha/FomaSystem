@@ -29,10 +29,8 @@ let package = Package(
         Target.target(
             name: "Foma",
             dependencies: ["CFomaSystem"]),
-            //linkerSettings: [LinkerSetting.unsafeFlags(["-Xlinker", "-L/usr/local/lib"])]), //[LinkerSetting.linkedLibrary("/usr/local/lib/libfoma.a")]),
         Target.testTarget(
             name: "FomaTests",
             dependencies: ["Foma"]),
-            //linkerSettings: [LinkerSetting.unsafeFlags(["-Xlinker", "-L/usr/local/lib"])]), //[LinkerSetting.linkedLibrary("/usr/local/lib/libfoma.a")]),
     ]
 )
