@@ -19,14 +19,15 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         Target.systemLibrary(
-            name: "CFomaSystem"),
+            name: "CFomaSystem",
+            pkgConfig: "libfoma"),
         Target.target(
             name: "Foma",
-            dependencies: ["CFomaSystem"],
-            linkerSettings: [LinkerSetting.unsafeFlags(["-Xlinker", "-L/usr/local/lib"])]), //[LinkerSetting.linkedLibrary("/usr/local/lib/libfoma.a")]),
+            dependencies: ["CFomaSystem"]),
+            //linkerSettings: [LinkerSetting.unsafeFlags(["-Xlinker", "-L/usr/local/lib"])]), //[LinkerSetting.linkedLibrary("/usr/local/lib/libfoma.a")]),
         Target.testTarget(
             name: "FomaTests",
-            dependencies: ["Foma"],
-            linkerSettings: [LinkerSetting.unsafeFlags(["-Xlinker", "-L/usr/local/lib"])]), //[LinkerSetting.linkedLibrary("/usr/local/lib/libfoma.a")]),
+            dependencies: ["Foma"]),
+            //linkerSettings: [LinkerSetting.unsafeFlags(["-Xlinker", "-L/usr/local/lib"])]), //[LinkerSetting.linkedLibrary("/usr/local/lib/libfoma.a")]),
     ]
 )
