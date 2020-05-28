@@ -11,11 +11,11 @@ extension String {
     
 }
 
-struct Foma {
+public struct Foma {
     static let version = String(cString: fsm_get_library_version_string())
 }
 
-class FSM {
+public class FSM {
     private var fsmPointer : UnsafeMutablePointer<fsm>
     private var applyHandle: UnsafeMutablePointer<apply_handle>
     
