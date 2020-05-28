@@ -19,7 +19,7 @@ public class FSM {
     private var fsmPointer : UnsafeMutablePointer<fsm>
     private var applyHandle: UnsafeMutablePointer<apply_handle>
     
-    init(fromBinary binaryFilename: String) {
+    public init(fromBinary binaryFilename: String) {
         self.fsmPointer = fsm_read_binary_file(binaryFilename.unsafeMutablePointer())
         self.applyHandle = apply_init(fsmPointer)
     }
