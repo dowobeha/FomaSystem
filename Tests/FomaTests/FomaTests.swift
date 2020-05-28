@@ -10,8 +10,8 @@ final class FomaTests: XCTestCase {
     }
 
     func testFomaReadBinaryFile() {
-        let fsm = FSM(fromBinary: "/Users/lanes/work/summer/yupik/yupik-foma-v2/lower.fomabin")
-        XCTAssertEqual(fsm.applyUp("qikmiq"), "qikmigh(N)^[Abs.Sg]")
+        let fst = FST(fromBinary: "/Users/lanes/work/summer/yupik/yupik-foma-v2/lower.fomabin")
+        XCTAssertEqual(fst.applyUp("qikmiq"), "qikmigh(N)^[Abs.Sg]")
     }
 
     static var allTests = [

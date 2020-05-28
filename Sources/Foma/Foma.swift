@@ -12,10 +12,10 @@ extension String {
 }
 
 public struct Foma {
-    static let version = String(cString: fsm_get_library_version_string())
+    public static let version = String(cString: fsm_get_library_version_string())
 }
 
-public class FSM {
+public class FST {
     private var fsmPointer : UnsafeMutablePointer<fsm>
     private var applyHandle: UnsafeMutablePointer<apply_handle>
     
@@ -34,27 +34,27 @@ public class FSM {
         fsm_destroy(self.fsmPointer)
     }
     
-    func applyUp(_ s: String) -> String {
+    public func applyUp(_ s: String) -> String {
         let result: UnsafeMutablePointer<CChar> = apply_up(self.applyHandle, s.unsafeMutablePointer())
         return String(cString: result)
     }
 
-    func applyDown(_ s: String) -> String {
+    public func applyDown(_ s: String) -> String {
         let result: UnsafeMutablePointer<CChar> = apply_down(self.applyHandle, s.unsafeMutablePointer())
         return String(cString: result)
     }
     
-    func randomLower() -> String {
+    public func randomLower() -> String {
         let result: UnsafeMutablePointer<CChar> = apply_random_lower(self.applyHandle)
         return String(cString: result)
     }
 
-    func randomUpper() -> String {
+    public func randomUpper() -> String {
         let result: UnsafeMutablePointer<CChar> = apply_random_upper(self.applyHandle)
         return String(cString: result)
     }
     
-    func numStates() -> Int {
+    public func numStates() -> Int {
         let readHandle: UnsafeMutablePointer<fsm_read_handle> = fsm_read_init(self.fsmPointer)
         defer {
             fsm_read_done(readHandle)
@@ -62,8 +62,8 @@ public class FSM {
         return Int(fsm_get_num_states(readHandle))
     }
     
-    func union(_ other: FSM) -> FSM {
-        return FSM(fromPointer: fsm_union(self.fsmPointer, other.fsmPointer))
+    public func union(_ other: FST) -> FST {
+        return FST(fromPointer: fsm_union(self.fsmPointer, other.fsmPointer))
     }
     
 }

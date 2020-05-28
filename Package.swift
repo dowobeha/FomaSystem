@@ -20,7 +20,12 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         Target.systemLibrary(
             name: "CFomaSystem",
-            pkgConfig: "libfoma"),
+            pkgConfig: "libfoma" /* Swift package manager (SPM) will look in /usr/lib/pkgconfig, /usr/local/lib/pkgconfig, etc for libfoma.pc
+                                  *
+                                  * The libfoma.pc file tells SPM where libfoma is installed on the system, as well as
+                                  *     what linker and include flags are required for SPM to successfully link against libfoma.
+                                  */
+        ),
         Target.target(
             name: "Foma",
             dependencies: ["CFomaSystem"]),
