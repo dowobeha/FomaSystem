@@ -50,13 +50,14 @@ public class FST {
         fsm_destroy(self.fsmPointer)
     }
     
-    private func apply(function applyFunction: Foma.BinaryApplyFunction, to string:String) -> [String] {
-        var results = [String]()
+    private func apply(function applyFunction: Foma.BinaryApplyFunction, to string:String) -> [String]? {
+        
         
         if let applyHandle = apply_init(fsmPointer) {
             defer {
                 apply_clear(applyHandle)
             }
+            var results = [String]()
             if let firstResult: UnsafeMutablePointer<CChar> = applyFunction(applyHandle, string.unsafeMutablePointer()) {
                 results.append(String(cString: firstResult))
                 
@@ -64,10 +65,13 @@ public class FST {
                 while let nextResult: UnsafeMutablePointer<CChar> = applyFunction(applyHandle, nullPointer) {
                     results.append(String(cString: nextResult))
                 }
+                return results
+            } else {
+                return nil
             }
         }
 
-        return results
+        return nil
     }
     
     private func apply(function applyFunction: Foma.UnaryApplyFunction) -> String? {
@@ -94,12 +98,26 @@ public class FST {
         return Int(readFunction(readHandle))
     }
     
-    public func applyUp(_ s: String) -> [String] {
-        return self.apply(function: apply_up, to: s)
+    public func applyUp(_ s: String, lowercaseBackoff : Bool = true, removePunctBackoff : Bool = true) -> [String]? {
+        if let results = self.apply(function: apply_up, to: s) {
+            return results
+        } else if lowercaseBackoff == true && removePunctBackoff == true, let results = self.apply(function: apply_up, to: String(s.lowercased().filter{!$0.isPunctuation})) {
+            return results
+        } else if lowercaseBackoff == true && removePunctBackoff == false, let results = self.apply(function: apply_up, to: String(s.lowercased())) {
+            return results
+        } else if lowercaseBackoff == false && removePunctBackoff == true, let results = self.apply(function: apply_up, to: String(s.filter{!$0.isPunctuation})) {
+            return results
+        } else {
+            return nil
+        }
     }
     
     public func applyDown(_ s: String) -> [String] {
-        return self.apply(function: apply_down, to: s)
+        if let results = self.apply(function: apply_down, to: s) {
+            return results
+        } else {
+            return []
+        }
     }
     
     public func randomLower() -> String? {
