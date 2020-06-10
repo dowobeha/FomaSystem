@@ -19,9 +19,19 @@ public class FST {
     private var fsmPointer : UnsafeMutablePointer<fsm>
     private var applyHandle: UnsafeMutablePointer<apply_handle>
     
-    public init(fromBinary binaryFilename: String) {
-        self.fsmPointer = fsm_read_binary_file(binaryFilename.unsafeMutablePointer())
-        self.applyHandle = apply_init(fsmPointer)
+    public init?(fromBinary binaryFilename: String) {
+
+        if let pointer = fsm_read_binary_file(binaryFilename.unsafeMutablePointer()) {
+            self.fsmPointer = pointer
+        } else {
+            return nil
+        }
+
+        if let handle = apply_init(fsmPointer) {
+            self.applyHandle = handle
+        } else {
+            return nil
+        }
     }
     
     private init(fromPointer unsafeMutablePointer: UnsafeMutablePointer<fsm>) {
