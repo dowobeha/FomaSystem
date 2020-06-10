@@ -57,7 +57,7 @@ public class FST {
             defer {
                 apply_clear(applyHandle)
             }
-            while let result: UnsafeMutablePointer<CChar> = applyFunction(applyHandle, string.unsafeMutablePointer()) {
+            if let result: UnsafeMutablePointer<CChar> = applyFunction(applyHandle, string.unsafeMutablePointer()) {
                 results.append(String(cString: result))
             }
         }
