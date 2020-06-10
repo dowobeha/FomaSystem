@@ -45,8 +45,11 @@ public class FST {
     }
     
     public func applyUp(_ s: String) -> String {
-        let result: UnsafeMutablePointer<CChar> = apply_up(self.applyHandle, s.unsafeMutablePointer())
-        return String(cString: result)
+        if let result: UnsafeMutablePointer<CChar> = apply_up(self.applyHandle, s.unsafeMutablePointer()) {
+            return String(cString: result)
+        } else {
+            return ""
+        }
     }
 
     public func applyDown(_ s: String) -> String {
