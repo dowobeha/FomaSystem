@@ -50,7 +50,7 @@ public class FST {
         fsm_destroy(self.fsmPointer)
     }
     
-    private func apply(function applyFunction: Foma.BinaryApplyFunction, to string:String) -> [String]? {
+    private func apply(function applyFunction: Foma.BinaryApplyFunction, to string:String) -> (String, [String])? {
         
         
         if let applyHandle = apply_init(fsmPointer) {
@@ -65,7 +65,7 @@ public class FST {
                 while let nextResult: UnsafeMutablePointer<CChar> = applyFunction(applyHandle, nullPointer) {
                     results.append(String(cString: nextResult))
                 }
-                return results
+                return (string, results)
             } else {
                 return nil
             }
@@ -98,7 +98,7 @@ public class FST {
         return Int(readFunction(readHandle))
     }
     
-    public func applyUp(_ s: String, lowercaseBackoff : Bool = true, removePunctBackoff : Bool = true) -> [String]? {
+    public func applyUp(_ s: String, lowercaseBackoff : Bool = true, removePunctBackoff : Bool = true) -> (String, [String])? {
         if let results = self.apply(function: apply_up, to: s) {
             return results
         } else if lowercaseBackoff == true && removePunctBackoff == true, let results = self.apply(function: apply_up, to: String(s.lowercased().filter{!$0.isPunctuation})) {
@@ -112,11 +112,11 @@ public class FST {
         }
     }
     
-    public func applyDown(_ s: String) -> [String] {
+    public func applyDown(_ s: String) -> (String, [String])? {
         if let results = self.apply(function: apply_down, to: s) {
             return results
         } else {
-            return []
+            return nil
         }
     }
     
