@@ -12,7 +12,12 @@ final class FomaTests: XCTestCase {
     func testFomaReadBinaryFile() {
         let testFile = "/Users/lanes/work/summer/yupik/yupik-foma-v2/l2s.fomabin"
         if let fst = FST(fromBinary: testFile) {
-            XCTAssertEqual(fst.applyUp("qikmiq"), ["qikmigh(N)^[Abs.Sg]"])
+            if let result = fst.applyUp("qikmiq") {
+                XCTAssertEqual(result.input, "qikmiq")
+                XCTAssertEqual(result.outputs, ["qikmigh(N)^[Abs.Sg]"])
+            } else {
+                XCTFail("applyUp failed")
+            }
         } else {
             XCTFail("Failed to read binary file \(testFile)")
         }
