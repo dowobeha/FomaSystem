@@ -3,9 +3,9 @@
 public struct Result {
     
     // The argument provided to the FST
-    let input: String
+    public let input: String
     
     // The result(s) returned by the FST
-    let outputs: [String]
+    public let outputs: [String]
     
 }
